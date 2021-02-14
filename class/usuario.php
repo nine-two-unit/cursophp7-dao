@@ -53,12 +53,7 @@ class Usuario {
 		
 		if(count($results) > 0){
 			
-			$row = $results[0];
-			
-			$this->setIdusuario($row['idusuario']);
-			$this->setDeslogin($row['deslogin']);
-			$this->setDessenha($row['dessenha']);
-			$this->setDtcadastro(new DateTime($row['dtcadastro']));
+			$this->setData($results[0]);
 			
 		}
 		
@@ -68,7 +63,7 @@ class Usuario {
 		
 		$sql = new Sql();
 		
-		return $sql->select("SELECT * FROM tb_usuarios ORDER BY deslogin");
+		return $sql->select("SELECT * FROM tb_usuarios ORDER BY idusuario");
 		
 	}
 	
@@ -97,12 +92,7 @@ class Usuario {
 		
 		if(count($results) > 0){
 			
-			$row = $results[0];
-			
-			$this->setIdusuario($row['idusuario']);
-			$this->setDeslogin($row['deslogin']);
-			$this->setDessenha($row['dessenha']);
-			$this->setDtcadastro(new DateTime($row['dtcadastro']));
+			$this->setData($results[0]);
 			
 		} else {
 			
@@ -110,6 +100,37 @@ class Usuario {
 			
 		}		
 		
+		
+	}
+	
+	public function setData($data){
+		
+		$this->setIdusuario($data['idusuario']);
+		$this->setDeslogin($data['deslogin']);
+		$this->setDessenha($data['dessenha']);
+		$this->setDtcadastro(new DateTime($data['dtcadastro']));
+		
+	}
+	
+	public function insert(){
+		
+		$sql = new Sql();
+		
+		$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
+			':LOGIN'=>$this->getDeslogin(),
+			':PASSWORD'=>$this->getDessenha()
+		));
+		
+		if (count($results) > 0){
+			$this->setData($results[0]);
+		}
+		
+	}
+	
+	public function __construct($login = "", $password = ""){
+		
+		$this->setDeslogin($login);
+		$this->setDessenha($password);
 		
 	}
 	
