@@ -16,13 +16,14 @@ echo $root;
 */
 
 //Carrega uma lista de usuários
-
+/*
 $lista = Usuario::getList();
 
 echo json_encode($lista);
 
 echo "<br><br>";
 echo "<hr>";
+*/
 
 //Carrega uma lista de usuarios pelo login
 /*
@@ -47,10 +48,19 @@ $aluno->setDessenha("@lun0");
 */
 
 //Utilizando método construtor
+/*
 $aluno = new Usuario("player1", "g4m3r");
 
 $aluno->insert();
 
 echo $aluno;
+*/
+$usuario = new Usuario();
+
+$usuario->loadById(11);
+
+$usuario->update("professor", "tiburcio");
+
+echo $usuario;
 
 ?>
